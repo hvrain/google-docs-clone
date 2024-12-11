@@ -6,7 +6,7 @@ interface DocumentIdPageProps {
 
 const DocumentIdPage = async ({ params }: DocumentIdPageProps) => {
   return (
-    <div>
+    <div className="min-h-screen bg-[#FAFBFD]">
       <Editor params={params} />
     </div>
   );
