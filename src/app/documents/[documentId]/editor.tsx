@@ -13,6 +13,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
 
+import useEditorStore from "@/store/useEditorStore";
+
 interface EditorProps {
   params: Promise<{ documentId: string }>;
 }
@@ -21,7 +23,32 @@ const Editor = ({ params }: EditorProps) => {
   const { documentId } = use(params);
   // eslint-disable-next-line no-console
   console.log(documentId);
+  const { setEditor } = useEditorStore();
   const editor = useEditor({
+    onCreate: (props) => {
+      setEditor(props.editor);
+    },
+    onUpdate: (props) => {
+      setEditor(props.editor);
+    },
+    onFocus: (props) => {
+      setEditor(props.editor);
+    },
+    onBlur: (props) => {
+      setEditor(props.editor);
+    },
+    onTransaction: (props) => {
+      setEditor(props.editor);
+    },
+    onSelectionUpdate: (props) => {
+      setEditor(props.editor);
+    },
+    onContentError: (props) => {
+      setEditor(props.editor);
+    },
+    onDestroy: () => {
+      setEditor(null);
+    },
     editorProps: {
       attributes: {
         style: "padding-left: 56px; padding-right: 56px;",
