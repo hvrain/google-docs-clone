@@ -4,11 +4,17 @@ import React from "react";
 
 import { Level } from "@tiptap/extension-heading";
 import {
+  BoldIcon,
   ChevronDownIcon,
+  ItalicIcon,
+  ListTodoIcon,
   LucideIcon,
+  MessageSquarePlusIcon,
   PrinterIcon,
   Redo2Icon,
+  RemoveFormattingIcon,
   SpellCheckIcon,
+  UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
 
@@ -139,11 +145,19 @@ const ToolbarButton = ({
   return (
     <button
       onClick={onClick}
-      className="flex h-7 min-w-7 items-center justify-center rounded-sm text-sm hover:bg-neutral-200/80 disabled:bg-neutral-200/80"
-      disabled={!isActive}
+      className={cn(
+        "flex h-7 min-w-7 items-center justify-center rounded-sm text-sm hover:bg-neutral-200/80",
+        isActive && "bg-neutral-200/80",
+      )}
     >
       <Icon className="size-4" />
     </button>
+  );
+};
+
+const VerticalSeparator = () => {
+  return (
+    <Separator orientation="vertical" className="h-6 w-[1px] bg-neutral-300" />
   );
 };
 
@@ -189,6 +203,55 @@ const Toolbar = () => {
         },
       },
     ],
+    [
+      {
+        label: "Bold",
+        icon: BoldIcon,
+        isActive: editor?.isActive("bold"),
+        onClick: () => {
+          editor?.chain().focus().toggleBold().run();
+        },
+      },
+      {
+        label: "Italic",
+        icon: ItalicIcon,
+        isActive: editor?.isActive("italic"),
+        onClick: () => {
+          editor?.chain().focus().toggleItalic().run();
+        },
+      },
+      {
+        label: "Underline",
+        icon: UnderlineIcon,
+        isActive: editor?.isActive("underline"),
+        onClick: () => {
+          editor?.chain().focus().toggleUnderline().run();
+        },
+      },
+    ],
+    [
+      {
+        label: "Comment",
+        icon: MessageSquarePlusIcon,
+        isActive: false,
+        onClick: () => {}, // TODO: comment 추가 기능 구현
+      },
+      {
+        label: "List Todo",
+        icon: ListTodoIcon,
+        isActive: editor?.isActive("taskList"),
+        onClick: () => {
+          editor?.chain().focus().toggleTaskList().run();
+        },
+      },
+      {
+        label: "Remove Formatting",
+        icon: RemoveFormattingIcon,
+        onClick: () => {
+          editor?.chain().focus().unsetAllMarks().run();
+        },
+      },
+    ],
   ];
 
   return (
@@ -196,16 +259,19 @@ const Toolbar = () => {
       {sections[0].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
-      <Separator
-        orientation="vertical"
-        className="h-6 w-[1px] bg-neutral-300"
-      />
+      <VerticalSeparator />
       <FontFamilyButton />
-      <Separator
-        orientation="vertical"
-        className="h-6 w-[1px] bg-neutral-300"
-      />
+      <VerticalSeparator />
+
       <HeadingLevelButton />
+      <VerticalSeparator />
+      {sections[1].map((item) => (
+        <ToolbarButton key={item.label} {...item} />
+      ))}
+      <VerticalSeparator />
+      {sections[2].map((item) => (
+        <ToolbarButton key={item.label} {...item} />
+      ))}
     </div>
   );
 };

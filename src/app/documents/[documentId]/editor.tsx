@@ -11,6 +11,7 @@ import TableRow from "@tiptap/extension-table-row";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import TextStyle from "@tiptap/extension-text-style";
+import Underline from "@tiptap/extension-underline";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
@@ -27,6 +28,7 @@ const Editor = ({ params }: EditorProps) => {
   console.log(documentId);
   const { setEditor } = useEditorStore();
   const editor = useEditor({
+    immediatelyRender: false,
     onCreate: (props) => {
       setEditor(props.editor);
     },
@@ -74,6 +76,7 @@ const Editor = ({ params }: EditorProps) => {
       ImageResize,
       FontFamily,
       TextStyle,
+      Underline,
     ],
     content: `
 			<table>
